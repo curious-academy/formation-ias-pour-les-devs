@@ -1,0 +1,23 @@
+steps:
+  - name: Checkout du code
+    uses: actions/checkout@v3
+
+  - name: Installer Node.js (si nécessaire)
+    uses: actions/setup-node@v3
+    with:
+      node-version: '18'
+
+  - name: Installer Qodo CLI
+    run: npm install -g @qodo-dev/cli
+
+  - name: Générer la documentation avec Qodo
+    env:
+      QODO_API_KEY: ${{ secrets.QODO_API_KEY }}
+    run: qodo docs generate --path ./src --output ./docs
+
+  - name: Commit & push des fichiers générés
+    run: |
+      git config user.name "qodo-bot"
+      git config user.email "qodo-bot@yourorg.com"
+      git add docs/
+      git diff --cached --quiet || (git commit -m "docs: mise à jour auto par Qodo [skip ci]" && git push)
