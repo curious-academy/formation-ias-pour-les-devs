@@ -1,46 +1,46 @@
 /**
- * Represents a player character in a 2D game.
+ * Représente un personnage joueur dans un jeu 2D.
  * 
- * This class handles the player's position, dimensions, movement physics, and rendering.
- * It includes functionality for jumping, horizontal movement, and collision with ground.
+ * Cette classe gère la position du joueur, ses dimensions, sa physique de mouvement et son rendu.
+ * Elle inclut des fonctionnalités pour sauter, se déplacer horizontalement et gérer les collisions avec le sol.
  */
 export class Player {
-    /** Horizontal position of the player on the canvas */
+    /** Position horizontale du joueur sur le canvas */
     private x: number;
     
-    /** Vertical position of the player on the canvas */
+    /** Position verticale du joueur sur le canvas */
     private y: number;
     
-    /** Width of the player in pixels */
+    /** Largeur du joueur en pixels */
     private width: number;
     
-    /** Height of the player in pixels */
+    /** Hauteur du joueur en pixels */
     private height: number;
     
-    /** Current vertical velocity of the player, affected by gravity and jumps */
+    /** Vitesse verticale actuelle du joueur, affectée par la gravité et les sauts */
     private velocityY: number = 0;
     
-    /** Current horizontal velocity of the player, modified by moveLeft and moveRight */
+    /** Vitesse horizontale actuelle du joueur, modifiée par moveLeft et moveRight */
     private velocityX: number = 0;
     
-    /** Indicates whether the player is currently in the air */
+    /** Indique si le joueur est actuellement en l'air */
     private isJumping: boolean = false;
     
-    /** Gravity force applied to the player on each update */
+    /** Force de gravité appliquée au joueur à chaque mise à jour */
     private gravity: number = 0.5;
     
-    /** Jump power - negative value because Y-axis is oriented downward */
+    /** Puissance de saut - valeur négative car l'axe Y est orienté vers le bas */
     private jumpStrength: number = -12;
     
-    /** Horizontal movement speed of the player */
+    /** Vitesse de déplacement horizontal du joueur */
     private speed: number = 5;
     
     /**
-     * Creates a player instance
-     * @param x - Initial horizontal position
-     * @param y - Initial vertical position
-     * @param width - Width of the player
-     * @param height - Height of the player
+     * Crée une instance de joueur
+     * @param x - Position horizontale initiale
+     * @param y - Position verticale initiale
+     * @param width - Largeur du joueur
+     * @param height - Hauteur du joueur
      */
     constructor(x: number, y: number, width: number, height: number) {
         this.x = x;
@@ -50,8 +50,8 @@ export class Player {
     }
     
     /**
-     * Draws the player on the canvas
-     * @param ctx - Canvas rendering context
+     * Dessine le joueur sur le canvas
+     * @param ctx - Contexte de rendu du canvas
      */
     draw(ctx: CanvasRenderingContext2D): void {
         ctx.fillStyle = '#FF0000';
@@ -59,17 +59,17 @@ export class Player {
     }
     
     /**
-     * Updates the player's position based on velocity and gravity
-     * Also handles collision with the ground
-     * @param ground - Y position of the ground
+     * Met à jour la position du joueur en fonction de sa vitesse et de la gravité
+     * Gère également la collision avec le sol
+     * @param ground - Position Y du sol
      */
     update(ground: number): void {
-        // Apply gravity
+        // Appliquer la gravité
         this.velocityY += this.gravity;
         this.y += this.velocityY;
         this.x += this.velocityX;
         
-        // Check if player is on the ground
+        // Vérifier si le joueur est sur le sol
         if (this.y + this.height > ground) {
             this.y = ground - this.height;
             this.velocityY = 0;
@@ -78,7 +78,7 @@ export class Player {
     }
     
     /**
-     * Makes the player jump if not already in the air
+     * Fait sauter le joueur s'il n'est pas déjà en l'air
      */
     jump(): void {
         if (!this.isJumping) {
@@ -88,37 +88,37 @@ export class Player {
     }
     
     /**
-     * Moves the player to the left
+     * Déplace le joueur vers la gauche
      */
     moveLeft(): void {
         this.velocityX = -this.speed;
     }
     
     /**
-     * Moves the player to the right
+     * Déplace le joueur vers la droite
      */
     moveRight(): void {
         this.velocityX = this.speed;
     }
     
     /**
-     * Stops horizontal movement of the player
+     * Arrête le mouvement horizontal du joueur
      */
     stopMoving(): void {
         this.velocityX = 0;
     }
     
     /**
-     * Returns the current position of the player
-     * @returns Object containing x and y coordinates
+     * Renvoie la position actuelle du joueur
+     * @returns Objet contenant les coordonnées x et y
      */
     getPosition(): { x: number, y: number } {
         return { x: this.x, y: this.y };
     }
     
     /**
-     * Returns the dimensions of the player
-     * @returns Object containing width and height
+     * Renvoie les dimensions du joueur
+     * @returns Objet contenant la largeur et la hauteur
      */
     getDimensions(): { width: number, height: number } {
         return { width: this.width, height: this.height };
